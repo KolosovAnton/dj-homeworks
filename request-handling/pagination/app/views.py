@@ -30,21 +30,29 @@ def bus_stations(request):
     page = paginator.get_page(page_num)
     data = page.object_list
     prev_page = urlencode({'page': page_num - 1})
-    if page_num - 1 < 1:
-        prev_page_url = None
-    elif page_num - 1 == 1:
-        prev_page_url = reverse('bus_stations')
-    else:
+    if page.has_previous():
         prev_page_url = reverse('bus_stations') + f'?{prev_page}'
-    if len(bus_stations) % count != 0:
-        count_pages = len(bus_stations) // count + 1
     else:
-        count_pages = len(bus_stations) // count
+        prev_page_url = None
+    # if page_num - 1 < 1:
+    #     prev_page_url = None
+    # elif page_num - 1 == 1:
+    #     prev_page_url = reverse('bus_stations')
+    # else:
+    #     prev_page_url = reverse('bus_stations') + f'?{prev_page}'
+    # if len(bus_stations) % count != 0:
+    #     count_pages = len(bus_stations) // count + 1
+    # else:
+    #     count_pages = len(bus_stations) // count
     next_page = urlencode({'page': page_num + 1})
-    if page_num + 1 > count_pages:
-        next_page_url = None
-    else:
+    if page.has_next():
         next_page_url = reverse('bus_stations') + f'?{next_page}'
+    else:
+        next_page_url = None
+    # if page_num + 1 > count_pages:
+    #     next_page_url = None
+    # else:
+    #     next_page_url = reverse('bus_stations') + f'?{next_page}'
     return render_to_response('index.html', context={
         'bus_stations': data,
         'current_page': page_num,
