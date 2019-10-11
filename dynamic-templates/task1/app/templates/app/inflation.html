@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load filters %}
+{% load static %}
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Инфляция в России</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+      td, th {
+        text-align: center;
+       }
+  </style>
+  </head>
+
+  <body>
+    {% block content %}
+      <div class="row">
+        <h1 class="col s14">Инфляция в России</h1>
+        <div class="col s14 m8">
+          <table class="u-full-width">
+            <thead>
+              <tr>
+                <th>Год</th>
+                <th>Январь</th>
+                <th>Февраль</th>
+                <th>Март</th>
+                <th>Апрель</th>
+                <th>Май</th>
+                <th>Июнь</th>
+                <th>Июль</th>
+                <th>Август</th>
+                <th>Сентябрь</th>
+                <th>Октябрь</th>
+                <th>Ноябрь</th>
+                <th>Декабрь</th>
+                <th bgcolor="#A9A9A9">Всего</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for year in inflation %}
+              <tr>
+                <td>{{ year.Год }}</td>
+                <td bgcolor={{ year.Январь|color_background }}>{{ year.Январь }}</td>
+                <td bgcolor={{ year.Февраль|color_background }}>{{ year.Февраль }}</td>
+                <td bgcolor={{ year.Март|color_background }}>{{ year.Март }}</td>
+                <td bgcolor={{ year.Апрель|color_background }}>{{ year.Апрель }}</td>
+                <td bgcolor={{ year.Май|color_background }}>{{ year.Май }}</td>
+                <td bgcolor={{ year.Июнь|color_background }}>{{ year.Июнь }}</td>
+                <td bgcolor={{ year.Июль|color_background }}>{{ year.Июль }}</td>
+                <td bgcolor={{ year.Август|color_background }}>{{ year.Август }}</td>
+                <td bgcolor={{ year.Сентябрь|color_background }}>{{ year.Сентябрь }}</td>
+                <td bgcolor={{ year.Октябрь|color_background }}>{{ year.Октябрь }}</td>
+                <td bgcolor={{ year.Ноябрь|color_background }}>{{ year.Ноябрь }}</td>
+                <td bgcolor={{ year.Декабрь|color_background }}>{{ year.Декабрь }}</td>
+                <td bgcolor="#A9A9A9">{{ year.Всего }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {% endblock %}
+
+  </body>
+</html>
