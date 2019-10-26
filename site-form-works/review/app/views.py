@@ -1,33 +1,36 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.generic import ListView, DetailView
 
 from .models import Product, Review
 from .forms import ReviewForm
 
 
-def product_list_view(request):
-    template = 'app/product_list.html'
-    products = Product.objects.all()
-
-    context = {
-        'product_list': products,
-    }
-
-    return render(request, template, context)
+class ProductsList(ListView):
+    model = Product
+    context_object_name = 'product_list'
 
 
-def product_view(request, pk):
-    template = 'app/product_detail.html'
-    product = get_object_or_404(Product, id=pk)
+class ProductView(DetailView):
+    model = Product
 
-    form = ReviewForm
-    if request.method == 'POST':
-        # логика для добавления отзыва
-        pass
+    def get_context_data(self, **kwargs):
+        context = super(ProductView, self).get_context_data(**kwargs)
+        context['reviews'] = Review.objects.filter(product=self.object)
+        context['form'] = ReviewForm
+        if self.object.id in self.request.session.get('has_commented', []):
+            context['has_commented'] = self.request.session.get('has_commented')
+            context['is_review_exist'] = True
+        return context
 
-    context = {
-        'form': form,
-        'product': product
-    }
-
-    return render(request, template, context)
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get(self.pk_url_kwarg, None)
+        form = ReviewForm(self.request.POST)
+        has_commented = self.request.session.get('has_commented', [])
+        if form.is_valid() and pk not in has_commented:
+            review = form.save(commit=False)
+            review.product_id = pk
+            review.save()
+            has_commented.append(pk)
+            self.request.session['has_commented'] = has_commented
+        return redirect(reverse('product_detail', kwargs={'pk': pk}))

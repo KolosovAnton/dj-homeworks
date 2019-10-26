@@ -6,7 +6,7 @@
         {% for product in product_list %}
             <div>
                 <a href="{% url 'product_detail' product.id %}">
-                    <img src="{{ MEDIA_URL }}{{ product.img.url }}" class="preview">{{ product.name }}
+                    <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="20%" class="preview">{{ product.name }}
                 </a>
             </div>
         {% endfor %}

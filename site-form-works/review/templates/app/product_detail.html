@@ -3,7 +3,7 @@
 {% block content %}
 <div class="margin-left">
     <h2>Товар {{ product.name }}</h2>
-    <img src="{{ MEDIA_URL }}{{ product.img.url }}" class="preview">
+    <img src="{{ MEDIA_URL }}{{ product.img.url }}" width="50%" class="preview">
     <h4>Отзывы:</h4>
     <ul>
         {% for review in reviews %}
@@ -14,13 +14,12 @@
         <p>Отзыв от вас уже есть</p>
     {% else %}
         <p>Можете добавить отзыв</p>
-    {% endif %}
-
-    <form action="{% url 'product_detail' product.id %}" method="POST">
+        <form action="{% url 'product_detail' product.id %}" method="POST">
         {% csrf_token %}
         {{ form }}
         <br>
         <input type="submit" value="Отправить отзыв"/>
     </form>
+    {% endif %}
 </div>
 {% endblock %}
