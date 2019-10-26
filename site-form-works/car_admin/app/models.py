@@ -5,6 +5,11 @@ class Car(models.Model):
     brand = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
 
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Автомобиль'
+        verbose_name_plural = 'Автомобили'
+
     def __str__(self):
         return f'{self.brand} {self.model}'
 
@@ -17,6 +22,10 @@ class Review(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField()
 
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Обзор'
+        verbose_name_plural = 'Обзоры'
+
     def __str__(self):
         return str(self.car) + ' ' + self.title
-
