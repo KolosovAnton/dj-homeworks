@@ -5,8 +5,14 @@
 
 {% block content %}
     <div class="container">
-        <div class="header"></div>
+        {% if user.is_authenticated %}
+            Привет, {{ user }}!<br>
+            <a href="{% url 'signup' %}">Зарегистрировать нового пользователя</a><br>
+            <a href="{% url 'login' %}">Авторизоваться под другим пользователем</a><br>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
             Привет, <b>гость</b>.<br>
-            Пожалуйста, <a href="/signup">зарегистрируйся</a> или <a href="/login">авторизуйся</a>!
+            Пожалуйста, <a href="{% url 'signup' %}">зарегистрируйся</a> или <a href="{% url 'login' %}">авторизуйся</a>!
+        {% endif %}
     </div>
 {% endblock %}
