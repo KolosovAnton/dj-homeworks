@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Угадай число{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <p>Введите число:</p>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
+            <input type="submit" value="Проверить"/>
+        </form>
+        <h1>{{ text }}</h1>
+    </div>
+</div>
+{% endblock %}
